@@ -1,0 +1,36 @@
+{
+  "name": "blockchain-explorer-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for blockchain event indexing demo",
+  "type": "module",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat ignition deploy ignition/modules/GameState.ts --network localhost",
+    "deploy:quick": "hardhat run scripts/deploy-and-update-env.ts --network localhost",
+    "deploy-docker": "tsx scripts/deploy-for-docker.ts --network localhost",
+    "node": "hardhat node",
+    "clean": "hardhat clean",
+    "typecheck": "tsc --noEmit",
+    "generate-events": "hardhat run scripts/generate-test-events.ts --network localhost"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart-contracts",
+    "hardhat"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "hardhat": "^3.0.4",
+    "ethers": "^6.15.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^3.0.1",
+    "@types/node": "^22.10.2",
+    "@types/mocha": "^10.0.10"
+  }
+}

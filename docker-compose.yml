@@ -1,0 +1,109 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: blockchain-postgres
+    environment:
+      POSTGRES_DB: blockchain_explorer
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - blockchain-network
+
+  hardhat:
+    build:
+      context: ./contracts
+      dockerfile: ../docker/contracts.Dockerfile
+    container_name: blockchain-hardhat
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./contracts:/app
+      - ./backend/.env.docker:/backend/.env.docker
+      - /app/node_modules
+      - /app/cache
+      - /app/artifacts
+    networks:
+      - blockchain-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8545 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 45s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend.Dockerfile
+      target: development
+    container_name: blockchain-backend
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      RPC_URL: http://hardhat:8545
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/migrations:/app/migrations
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+      hardhat:
+        condition: service_healthy
+    networks:
+      - blockchain-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend.Dockerfile
+      target: development
+    container_name: blockchain-frontend
+    env_file:
+      - ./frontend/.env.docker
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/index.html:/app/index.html
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - blockchain-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  blockchain-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
