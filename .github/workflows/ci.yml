@@ -1,0 +1,223 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-backend:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: blockchain_explorer_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+      
+      - name: Run database migrations
+        working-directory: backend
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: blockchain_explorer_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+        run: npm run migrate
+      
+      - name: Run backend tests
+        working-directory: backend
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: blockchain_explorer_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          RPC_URL: http://localhost:8545
+          CONTRACT_ADDRESS: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+        run: |
+          npm run test:health
+          npm run test:cache
+          npm run test:batch
+  
+  test-contracts:
+    name: Contract Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+          cache: 'npm'
+          cache-dependency-path: contracts/package-lock.json
+      
+      - name: Install contract dependencies
+        working-directory: contracts
+        run: npm ci
+      
+      - name: Run contract tests
+        working-directory: contracts
+        run: npm test
+  
+  test-frontend:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          VITE_API_URL: /api
+          VITE_WS_URL: http://localhost:4000
+        run: npm run build
+      
+      - name: Check build artifacts
+        working-directory: frontend
+        run: |
+          ls -la dist/
+          test -f dist/index.html
+  
+  lint-and-typecheck:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+      
+      - name: Install all dependencies
+        run: |
+          cd backend && npm ci && cd ..
+          cd contracts && npm ci && cd ..
+          cd frontend && npm ci && cd ..
+      
+      - name: TypeScript check - Backend
+        working-directory: backend
+        run: npx tsc --noEmit
+      
+      - name: TypeScript check - Contracts
+        working-directory: contracts
+        run: npm run typecheck
+      
+      - name: TypeScript check - Frontend
+        working-directory: frontend
+        run: npx tsc -b
+  
+  docker-build:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/backend.Dockerfile
+          push: false
+          tags: blockchain-backend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Build contracts image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/contracts.Dockerfile
+          push: false
+          tags: blockchain-contracts:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Build frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/frontend.Dockerfile
+          push: false
+          tags: blockchain-frontend:test
+          target: production
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+  
+  security-scan:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+      
+      - name: Audit backend dependencies
+        working-directory: backend
+        run: npm audit --production --audit-level=moderate
+        continue-on-error: true
+      
+      - name: Audit frontend dependencies
+        working-directory: frontend
+        run: npm audit --production --audit-level=moderate
+        continue-on-error: true
+      
+      - name: Audit contracts dependencies
+        working-directory: contracts
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
