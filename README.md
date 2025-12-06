@@ -2,13 +2,6 @@
 
 A full-stack real-time blockchain event indexing and analytics dashboard built with modern web technologies.
 
-[![Production Ready](https://img.shields.io/badge/status-production%20ready-brightgreen)]()
-[![Version](https://img.shields.io/badge/version-1.0.0-blue)]()
-[![License](https://img.shields.io/badge/license-MIT-green)]()
-[![Node](https://img.shields.io/badge/node-22.11.0-green)]()
-[![TypeScript](https://img.shields.io/badge/typescript-5.7.2-blue)]()
-[![React](https://img.shields.io/badge/react-19.0.0-blue)]()
-
 ---
 
 ## 🚀 Features
