@@ -196,8 +196,8 @@ Docker provides the **easiest and most reliable** way to run the application. Al
 
 ```powershell
 # Clone repository
-git clone <repository-url>
-cd blockchain-explorer
+git clone https://github.com/Exalt24/Blockchain-Explorer.git
+cd Blockchain-Explorer
 
 # Verify Docker is running
 docker --version
@@ -696,7 +696,7 @@ sudo su - explorer
 cd /opt/blockchain-explorer
 
 # Clone repository
-git clone <repository-url> .
+git clone https://github.com/Exalt24/Blockchain-Explorer.git .
 
 # Install and build backend
 cd backend
