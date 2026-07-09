@@ -14,7 +14,7 @@ A full-stack real-time blockchain event indexing and analytics dashboard built w
 🔍 **Advanced Filtering** - Search and filter events by multiple criteria  
 📈 **Analytics** - Player leaderboards, event distribution, activity timelines  
 🏥 **Health Monitoring** - Comprehensive health checks and status reporting  
-🔐 **Production Ready** - Error handling, retry logic, graceful shutdown  
+🔐 **Production-Grade Practices** - Error handling, retry logic, graceful shutdown  
 🐳 **Docker Support** - One-command deployment with hot reload  
 🤖 **CI/CD Ready** - GitHub Actions workflows included  
 📝 **Comprehensive Docs** - 4,600+ lines of documentation across 7 guides
@@ -513,7 +513,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎯 Project Status
 
-**Current Version**: 1.0.0 (Production Ready)
+**Current Version**: 1.0.0
+
+This is a portfolio project that runs locally via Docker. There is no hosted demo instance, so the "production" references below describe the configuration and practices baked into the codebase (prod Docker compose, Nginx config, error handling, health checks), not a live deployment.
 
 ### ✅ Completed Phases
 
@@ -525,7 +527,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ **Phase 5**: Integration and Testing
 - ✅ **Phase 6**: Docker and Production Readiness
 
-### 🎉 Production Ready Features
+### 🎉 Production-Ready Configuration
 
 ✅ Full-stack application functional  
 ✅ Real-time event indexing  
