@@ -71,8 +71,8 @@ A full-stack real-time blockchain event indexing and analytics dashboard built w
 
 ```powershell
 # Clone repository
-git clone <repository-url>
-cd blockchain-explorer
+git clone https://github.com/Exalt24/Blockchain-Explorer.git
+cd Blockchain-Explorer
 
 # One-command setup (5-10 minutes)
 .\scripts\setup.ps1
@@ -308,7 +308,7 @@ curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt install -y nodejs postgresql-18 nginx
 
 # Clone and setup
-git clone <repository-url> /opt/blockchain-explorer
+git clone https://github.com/Exalt24/Blockchain-Explorer.git /opt/blockchain-explorer
 cd /opt/blockchain-explorer
 npm run setup # Helper script
 
