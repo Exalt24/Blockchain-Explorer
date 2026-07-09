@@ -17,7 +17,7 @@ A full-stack real-time blockchain event indexing and analytics dashboard built w
 🔐 **Production Ready** - Error handling, retry logic, graceful shutdown  
 🐳 **Docker Support** - One-command deployment with hot reload  
 🤖 **CI/CD Ready** - GitHub Actions workflows included  
-📝 **Comprehensive Docs** - 10,000+ lines of documentation
+📝 **Comprehensive Docs** - 4,600+ lines of documentation across 7 guides
 
 ---
 
@@ -533,7 +533,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ✅ Docker development environment  
 ✅ Docker production configuration  
 ✅ Comprehensive testing (42+ tests)  
-✅ Complete documentation (10,000+ lines)  
+✅ Complete documentation (4,600+ lines)  
 ✅ Performance optimized (cache, batch processing)  
 ✅ Error handling and retry logic  
 ✅ Health monitoring  
