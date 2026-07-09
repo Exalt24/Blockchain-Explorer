@@ -570,7 +570,6 @@ This is a portfolio project that runs locally via Docker. There is no hosted dem
 - Machine learning insights
 - Mobile app (React Native)
 - Plugin system
-- API monetization
 - Advanced filtering and search
 
 ---
