@@ -1,4 +1,6 @@
 import { HealthMonitor } from '../../src/services/HealthMonitor.js';
+import { closePool } from '../../src/config/database.js';
+import { getProvider } from '../../src/config/blockchain.js';
 
 async function testHealthMonitor() {
   console.log('🧪 Testing HealthMonitor...\n');
@@ -26,4 +28,18 @@ async function testHealthMonitor() {
   console.log('\n✅ HealthMonitor tests passed!');
 }
 
-testHealthMonitor().catch(console.error);
+testHealthMonitor()
+  .catch((error) => {
+    console.error('❌ HealthMonitor test failed:', error);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    // Release the DB pool and blockchain provider so the process exits promptly
+    // instead of lingering on an idle socket / provider timer.
+    try {
+      await closePool();
+    } catch {
+      /* ignore teardown errors */
+    }
+    getProvider().destroy();
+  });
