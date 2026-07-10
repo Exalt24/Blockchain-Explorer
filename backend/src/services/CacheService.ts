@@ -11,6 +11,9 @@ export class CacheService {
   constructor() {
     this.cache = new Map();
     this.cleanupInterval = setInterval(() => this.cleanup(), 60000);
+    // Don't let the background cleanup timer keep the process alive on its own
+    // (matters for short-lived scripts and tests that import this module).
+    this.cleanupInterval.unref?.();
   }
 
   set<T>(key: string, data: T, ttlSeconds: number = 300): void {

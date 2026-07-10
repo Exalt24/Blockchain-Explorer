@@ -7,6 +7,7 @@ dotenv.config();
 const RPC_URL = process.env.RPC_URL || 'http://127.0.0.1:8545';
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || '';
 const START_BLOCK = Number(process.env.START_BLOCK || '0');
+const CHAIN_ID = Number(process.env.CHAIN_ID || '31337');
 
 export const rpcUrl = RPC_URL;
 export const contractAddress = CONTRACT_ADDRESS;
@@ -23,7 +24,11 @@ let provider: ethers.JsonRpcProvider | null = null;
 
 export function getProvider(): ethers.JsonRpcProvider {
   if (!provider) {
-    provider = new ethers.JsonRpcProvider(rpcUrl);
+    // Pin the network as static so a down/unreachable RPC fails fast instead of
+    // looping forever in ethers' network auto-detection ("failed to detect
+    // network ... retry in 1s"), which never rejects and hangs the process.
+    const network = ethers.Network.from(CHAIN_ID);
+    provider = new ethers.JsonRpcProvider(rpcUrl, network, { staticNetwork: network });
   }
   return provider;
 }
