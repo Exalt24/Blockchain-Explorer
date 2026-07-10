@@ -134,12 +134,12 @@ blockchain-explorer/
 │   │   ├── hooks/       # Custom hooks
 │   │   ├── services/    # API services
 │   │   └── types/       # TypeScript types
-│   └── public/          # Static assets
+│   ├── public/          # Static assets
+│   └── nginx.conf       # Nginx config for the production frontend image
 ├── docker/              # Docker configuration
 │   ├── backend.Dockerfile
 │   ├── contracts.Dockerfile
-│   ├── frontend.Dockerfile
-│   └── nginx.conf
+│   └── frontend.Dockerfile
 ├── scripts/             # Automation scripts (PowerShell)
 │   ├── setup.ps1
 │   ├── start-dev.ps1

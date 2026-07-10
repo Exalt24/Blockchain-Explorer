@@ -166,27 +166,27 @@ jobs:
       - name: Build backend image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./backend
           file: docker/backend.Dockerfile
           push: false
           tags: blockchain-backend:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      
+
       - name: Build contracts image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./contracts
           file: docker/contracts.Dockerfile
           push: false
           tags: blockchain-contracts:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      
+
       - name: Build frontend image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./frontend
           file: docker/frontend.Dockerfile
           push: false
           tags: blockchain-frontend:test

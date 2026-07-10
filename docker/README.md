@@ -77,7 +77,7 @@ Multi-stage Docker build for the React frontend application.
 **Exposed Ports:** 3000 (dev), 80 (prod)
 
 **Production Notes:**
-- nginx.conf copied during build (from docker/nginx.conf)
+- nginx.conf copied during build (from frontend/nginx.conf)
 - curl installed in nginx container for health checks
 - Optimized for serving static assets
 
