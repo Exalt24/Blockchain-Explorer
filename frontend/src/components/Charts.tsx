@@ -38,7 +38,7 @@ export default function Charts({ hours = 24 }: ChartsProps) {
 
   const COLORS = ['#10b981', '#3b82f6', '#8b5cf6', '#ef4444', '#f59e0b', '#ec4899'];
 
-  const formatTime = (hour: string) => {
+  const formatTime = (hour: any) => {
     const date = new Date(hour);
     return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
   };
