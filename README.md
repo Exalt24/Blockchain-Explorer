@@ -1,6 +1,6 @@
 # Blockchain Explorer
 
-A blockchain event indexer with a live analytics dashboard. A Node.js and Express backend polls a Hardhat chain for the events of a small game contract, batches them into PostgreSQL, serves aggregated stats over REST and pushes new events to a React dashboard over WebSocket. It is a portfolio project that runs locally in Docker. There is no hosted demo, and the `docker-compose.prod.yml`, Nginx config and CI workflows describe how it could be deployed, not a deployment that exists.
+An event indexer and analytics dashboard for its own `GameState` contract (players joining, score updates, item purchases, game resets). It is not a general block and transaction explorer for arbitrary chains. A Node.js and Express backend polls a Hardhat chain for the events of a small game contract, batches them into PostgreSQL, serves aggregated stats over REST and pushes new events to a React dashboard over WebSocket. It is a portfolio project that runs locally in Docker. There is no hosted demo, and the `docker-compose.prod.yml`, Nginx config and CI workflows describe how it could be deployed, not a deployment that exists.
 
 ## What it does
 
