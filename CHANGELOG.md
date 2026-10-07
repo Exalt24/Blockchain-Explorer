@@ -5,7 +5,7 @@ All notable changes to Blockchain Explorer will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-01-XX (Production Ready)
+## [1.0.0] - 2025-01-XX
 
 ### Added
 
@@ -59,20 +59,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exponential backoff retry logic (database & blockchain)
 - EventListener auto-recovery (10 error threshold)
 - Comprehensive health monitoring service
-- In-memory LRU cache (8-10x performance improvement)
-- Batch event processing (98% DB transaction reduction)
+- In-memory TTL cache for aggregate queries
+- Batch event processing (50 events per batch, 1 second flush)
 - WebSocket throttling optimization
-- 33 automated tests + 1 diagnostic tool
+- Backend unit, integration and performance test scripts plus a diagnostic tool
 - End-to-end integration tests
-- Performance benchmarks (P95 < 200ms)
-- Load testing (100-500 req/s)
-- Cache performance validation
-- 6 comprehensive documentation guides (~8,000+ lines)
+- Load and cache performance scripts (no recorded results)
+- 6 documentation guides
 
 **Phase 6: Docker & Production**
 - Multi-stage Docker builds (backend, contracts, frontend)
 - Docker Compose orchestration with health checks
-- Production-ready docker-compose.prod.yml with resource limits
+- docker-compose.prod.yml with resource limits
 - Hot reload via volume mounts in development
 - Production Nginx configuration with SSL/HTTPS support
 - 10 PowerShell automation scripts
@@ -83,12 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Performance
 
-- API response time: P95 < 200ms, P99 < 500ms
-- Cache hit rate: 80-90%
-- Event indexing: 100+ events/second
-- WebSocket: 50+ concurrent connections
-- Database: Optimized with strategic indexes
-- Throughput: 200-500 requests/second (single instance)
+No benchmark results are recorded for this release. The load and cache performance scripts are in `backend/tests/performance/`.
 
 ### Documentation
 
@@ -156,7 +149,7 @@ None - Initial release
 
 | Version | Date | Description |
 |---------|------|-------------|
-| 1.0.0 | 2025-01-XX | Production-ready release |
+| 1.0.0 | 2025-01-XX | First complete release |
 | 0.6.0 | 2025-01-XX | Docker & automation (Phase 6) |
 | 0.5.0 | 2025-01-XX | Integration & testing (Phase 5) |
 | 0.4.0 | 2024-XX-XX | Frontend dashboard (Phase 4) |
@@ -174,17 +167,16 @@ None - Initial release
 **What's New:**
 - Complete blockchain event indexing system
 - Real-time dashboard with live updates
-- Production-ready Docker deployment
-- Comprehensive test coverage (42+ tests)
-- Full documentation (~10,000+ lines)
+- Docker deployment for local use
+- 16 contract tests plus backend unit, integration and performance scripts
+- Documentation guides for API, architecture, deployment, testing, monitoring and troubleshooting
 - PowerShell automation scripts
 - CI/CD pipeline templates
 
-**Performance Improvements:**
-- 8-10x faster with in-memory caching
-- 98% reduction in database transactions via batching
-- 95% reduction in WebSocket messages via throttling
-- P95 API response time < 200ms
+**Performance work:**
+- In-memory TTL caching of aggregate queries
+- Batched event inserts
+- Throttled block updates over WebSocket
 
 **Developer Experience:**
 - One-command setup with `.\scripts\setup.ps1`
@@ -193,7 +185,7 @@ None - Initial release
 - Health monitoring
 - Easy debugging with scripts
 
-**Production Ready:**
+**Deployment configuration (written, not deployed):**
 - Docker production configuration
 - Resource limits and log rotation
 - SSL/HTTPS support

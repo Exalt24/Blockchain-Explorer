@@ -259,11 +259,7 @@ npm run test:load
 
 **Expected Duration:** 30-40 seconds
 
-**Typical Results:**
-- Avg response: 10-50ms (cached) / 50-150ms (uncached)
-- P95: <200ms
-- Throughput: 100-500 req/s
-- Success rate: >99%
+**Results:** no run has been recorded in this repo, so there are no typical numbers to quote. Run it on your own machine.
 
 ---
 

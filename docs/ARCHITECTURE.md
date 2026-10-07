@@ -139,7 +139,7 @@ User Action → Component → Hook → API/WebSocket → State Update → Re-ren
    - Cache integration
 
 4. **CacheService**
-   - In-memory LRU cache
+   - In-memory cache (a Map with TTL expiry)
    - TTL-based expiration
    - Automatic cleanup (60s interval)
 
@@ -217,7 +217,7 @@ User Action → Component → Hook → API/WebSocket → State Update → Re-ren
 **Cache Layers:**
 1. **In-Memory Cache** (CacheService)
    - TTL: 5-60 seconds
-   - LRU eviction
+   - No size limit or eviction beyond TTL
    - Automatic cleanup
 
 **Cache Keys:**
@@ -227,9 +227,7 @@ User Action → Component → Hook → API/WebSocket → State Update → Re-ren
 - `timeline_{hours}` (60s TTL)
 - `player_events_{player}_{limit}` (30s TTL)
 
-**Hit Rates:**
-- Expected: 80-90%
-- Performance gain: 8-10x faster
+**Hit rates:** not measured.
 
 ### Network Optimizations
 
