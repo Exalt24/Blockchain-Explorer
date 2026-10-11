@@ -132,9 +132,9 @@ async function generateTestEvents() {
   console.log('='.repeat(60));
   console.log('📊 Event Generation Summary');
   console.log('='.repeat(60));
-  console.log(`Total Events Generated: ~${players.length + (players.length * 3) + items.length + 5 + 1 + 20}`);
+  console.log('Total Events Generated: 79');
   console.log('   PlayerJoined: 10');
-  console.log('   ScoreUpdated: 30 (rounds) + 5 (activity) + 20 (rapid) = 55');
+  console.log('   ScoreUpdated: 10 (one per join) + 30 (rounds) + 5 (activity) + 20 (rapid) = 65');
   console.log('   ItemPurchased: 3');
   console.log('   GameReset: 1');
   console.log('='.repeat(60));

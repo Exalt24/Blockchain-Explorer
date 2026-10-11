@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Start development environment
 .DESCRIPTION

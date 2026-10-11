@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Deploy GameState contract
 .DESCRIPTION

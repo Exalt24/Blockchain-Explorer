@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Run test suites
 .DESCRIPTION

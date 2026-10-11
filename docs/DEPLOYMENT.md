@@ -267,7 +267,7 @@ curl http://localhost:4000/health
 #### Step 6: Generate Test Events (Optional)
 
 ```powershell
-# Generate ~69 test blockchain events
+# Generate 79 test blockchain events
 docker-compose exec hardhat npm run generate-events
 
 # Monitor backend logs to see indexing

@@ -5,6 +5,19 @@ All notable changes to Blockchain Explorer will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- `npm run deploy-docker` now runs through `hardhat run --network localhost`. It used `tsx`, which ignored the network flag and deployed to a throwaway in-process chain, so the Hardhat node never had the contract and no events were indexed.
+- PostgreSQL 18 refuses to start on a volume mounted at `/var/lib/postgresql/data`, so both compose files now mount `/var/lib/postgresql`.
+- `scripts/setup.ps1` failed under Windows PowerShell 5.1 (no UTF-8 byte order mark on the scripts, docker compose progress on stderr treated as an error) and ran the migrations before the backend container existed. It now builds and starts the stack first.
+- The event generator produces 79 events (65 ScoreUpdated, since every `joinGame` also emits one), not about 69.
+
+### Added
+
+- An animated demo of the dashboard in the README (`docs/demo.gif`).
+
 ## [1.0.0] - 2025-01-XX
 
 ### Added

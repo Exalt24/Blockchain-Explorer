@@ -1,8 +1,8 @@
-<#
+﻿<#
 .SYNOPSIS
     Generate test events
 .DESCRIPTION
-    Generates ~69 test events for development and testing
+    Generates 79 test events for development and testing
 .EXAMPLE
     .\scripts\generate-events.ps1
 #>
@@ -32,9 +32,9 @@ try {
     docker-compose exec -T hardhat npm run generate-events
     
     Write-Success "`n✓ Test events generated successfully"
-    Write-Info "`nGenerated ~69 events:"
+    Write-Info "`nGenerated 79 events:"
     Write-Host "  • 10 PlayerJoined events"
-    Write-Host "  • 55 ScoreUpdated events"
+    Write-Host "  • 65 ScoreUpdated events"
     Write-Host "  • 3 ItemPurchased events"
     Write-Host "  • 1 GameReset event`n"
     

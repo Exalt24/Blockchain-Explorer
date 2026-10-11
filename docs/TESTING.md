@@ -298,11 +298,11 @@ npm run generate-events
 
 **Generates:**
 - 10 PlayerJoined events
-- 55 ScoreUpdated events (includes rapid fire batch)
+- 65 ScoreUpdated events (includes the rapid fire batch and the one each joinGame call emits)
 - 3 ItemPurchased events
 - 1 GameReset event
 
-**Total:** ~69 events
+**Total:** 79 events
 
 **Duration:** ~30 seconds
 

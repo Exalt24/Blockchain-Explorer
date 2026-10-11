@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Database management operations
 .DESCRIPTION

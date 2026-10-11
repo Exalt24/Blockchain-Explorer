@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     System health check
 .DESCRIPTION

@@ -1,5 +1,9 @@
 # Blockchain Explorer
 
+![The dashboard filling with events from a local chain, then its charts, leaderboard and event explorer](docs/demo.gif)
+
+*The dashboard running against a local Docker stack that the repo's own `generate-events` script seeds (79 events in about 20 seconds), recorded with Playwright and sped up 1.25x. The feed updates per event and the counters every 10 seconds; the charts, leaderboard and explorer load when the page does, so the clip refreshes the page once after seeding (the wait for the backend cache to expire is cut out).*
+
 An event indexer and analytics dashboard for its own `GameState` contract (players joining, score updates, item purchases, game resets). It is not a general block and transaction explorer for arbitrary chains. A Node.js and Express backend polls a Hardhat chain for the events of a small game contract, batches them into PostgreSQL, serves aggregated stats over REST and pushes new events to a React dashboard over WebSocket. It is a portfolio project that runs locally in Docker. There is no hosted demo, and the `docker-compose.prod.yml`, Nginx config and CI workflows describe how it could be deployed, not a deployment that exists.
 
 ## What it does
@@ -25,7 +29,11 @@ An event indexer and analytics dashboard for its own `GameState` contract (playe
 
 ## Quick start
 
+You need Docker Desktop (or Docker with Compose) and Node.js. No wallet or API key is involved: the chain is a local Hardhat node inside Docker.
+
 ### Automated setup
+
+On Windows PowerShell:
 
 ```powershell
 git clone https://github.com/Exalt24/Blockchain-Explorer.git
@@ -35,6 +43,8 @@ cd Blockchain-Explorer
 
 Start-Process http://localhost:3000
 ```
+
+The script installs the dependencies, builds and starts the four containers, runs the migrations, deploys the contract, restarts the backend and offers to generate the test events. I ran it end to end on Windows PowerShell 5.1 with Docker Desktop. I have not run the other nine helper scripts.
 
 ### Manual Docker setup
 
@@ -55,10 +65,16 @@ docker-compose restart backend
 docker-compose exec hardhat npm run generate-events
 ```
 
+The generator sends 79 events (10 PlayerJoined, 65 ScoreUpdated, 3 ItemPurchased, 1 GameReset) in about 20 seconds. The dashboard then shows `Total Events` 79, `Unique Players` 10 and `Latest Block` #70.
+
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:4000/api
 - Health check: http://localhost:4000/health
 - Hardhat RPC: http://localhost:8545
+
+If one of those host ports is already taken, change the left-hand side of its `ports:` entry in `docker-compose.yml`. Moving the backend also means pointing `VITE_API_URL` and `VITE_WS_URL` in `frontend/.env.docker` at the new port, because the browser calls the backend directly.
+
+The stats cards refresh every 10 seconds and the live feed updates per event, but the charts, the leaderboard and the explorer fetch once when the page loads. Reload after seeding. The backend caches the leaderboard for 30 seconds and the charts for 60, so a reload inside that window can still show the old numbers.
 
 ## Project structure
 
@@ -286,9 +302,11 @@ psql -h localhost -U postgres -d blockchain_explorer
 
 **No events indexed:**
 ```bash
-cd contracts && npm run generate-events
+docker-compose exec hardhat npm run deploy-docker
+docker-compose restart backend
+docker-compose exec hardhat npm run generate-events
 curl http://localhost:4000/health | jq '.services.eventListener'
-grep CONTRACT_ADDRESS backend/.env
+grep CONTRACT_ADDRESS backend/.env.docker
 ```
 
 See [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
@@ -298,6 +316,9 @@ See [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 - No hosted demo and no real deployment
 - No rate limiting on the API
 - No measured performance numbers
+- The charts, leaderboard and explorer do not refresh on their own; only the feed and the stats cards do
+- The feed's relative times can read negative on the local chain (for example `-24s ago`) because the Hardhat block timestamps and the browser clock do not line up; I have not changed that
+- I have run the Docker setup and the automated `setup.ps1` on Windows only, and none of the production-style steps
 - Redis for a shared cache, Prometheus metrics, Grafana dashboards, GraphQL and multi-chain support are planned and not built
 
 ## Contributing

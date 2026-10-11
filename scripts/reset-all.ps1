@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Complete environment reset
 .DESCRIPTION
