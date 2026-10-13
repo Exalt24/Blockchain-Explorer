@@ -108,7 +108,7 @@ try {
 Write-Info "`nStep 6/6: Starting backend and frontend..."
 try {
     docker-compose up -d 2>&1 | Out-Null
-    Start-Sleep -Seconds 10
+    Start-Sleep -Seconds 10  # fixed-wait-ok: lets the freshly reset containers settle; a dev reset script with no health endpoint to poll
     Write-Success "✓ All services started"
 } catch {
     Write-Error "✗ Failed to start services"

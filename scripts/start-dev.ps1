@@ -19,7 +19,7 @@ Write-Host "`n🚀 Starting development environment...`n" -ForegroundColor Cyan
 try {
     docker-compose up -d
     Write-Info "Waiting for services to be healthy..."
-    Start-Sleep -Seconds 15
+    Start-Sleep -Seconds 15  # fixed-wait-ok: dev servers have no readiness endpoint, this is the settle time before the script prints their URLs
     
     $services = @("postgres", "hardhat", "backend", "frontend")
     $allHealthy = $true
