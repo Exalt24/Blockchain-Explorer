@@ -48,6 +48,13 @@ The script installs the dependencies, builds and starts the four containers, run
 
 ### Manual Docker setup
 
+Before the first run, copy the two Docker env templates (the setup script does this for you):
+
+```bash
+cp backend/.env.docker.example backend/.env.docker
+cp frontend/.env.docker.example frontend/.env.docker
+```
+
 ```bash
 # 1. Start all services
 docker-compose up -d
@@ -213,6 +220,8 @@ I have not published latency, throughput or cache hit-rate numbers because I hav
 ## Deployment
 
 ### Development (Docker)
+
+Copy `backend/.env.docker.example` to `backend/.env.docker` and `frontend/.env.docker.example` to `frontend/.env.docker` first; the real files are git-ignored.
 
 ```bash
 docker-compose up -d

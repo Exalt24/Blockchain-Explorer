@@ -489,6 +489,8 @@ Development uses Docker-specific env files:
 - `backend/.env.docker` - Uses service names (postgres, hardhat)
 - `frontend/.env.docker` - Points to localhost:4000
 
+Both are git-ignored. Copy `backend/.env.docker.example` and `frontend/.env.docker.example` to those names before the first `docker-compose up`.
+
 ### Troubleshooting Docker
 
 #### Services Won't Start

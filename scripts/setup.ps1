@@ -95,8 +95,11 @@ if (-not (Test-Path "frontend\.env")) {
     Write-Warning "⚠ frontend\.env already exists (skipped)"
 }
 
-if (-not (Test-Path "backend\.env.docker")) {
-    Write-Warning "⚠ backend\.env.docker not found, will be created by Docker"
+foreach ($dir in @("backend", "frontend")) {
+    if (-not (Test-Path "$dir\.env.docker")) {
+        Copy-Item "$dir\.env.docker.example" "$dir\.env.docker"
+        Write-Success "✓ Created $dir\.env.docker from the template"
+    }
 }
 
 # Runs a native command quietly. Windows PowerShell 5.1 turns anything a native tool writes to
