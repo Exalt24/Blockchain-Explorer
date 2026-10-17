@@ -1,10 +1,12 @@
 # Blockchain Explorer
 
+[![CI](https://github.com/Exalt24/Blockchain-Explorer/actions/workflows/ci.yml/badge.svg)](https://github.com/Exalt24/Blockchain-Explorer/actions/workflows/ci.yml)
+
 ![The dashboard filling with events from a local chain, then its charts, leaderboard and event explorer](docs/demo.gif)
 
 *The dashboard running against a local Docker stack that the repo's own `generate-events` script seeds (79 events in about 20 seconds), recorded with Playwright and sped up 1.25x. The feed updates per event and the counters every 10 seconds; the charts, leaderboard and explorer load when the page does, so the clip refreshes the page once after seeding (the wait for the backend cache to expire is cut out).*
 
-An event indexer and analytics dashboard for its own `GameState` contract (players joining, score updates, item purchases, game resets). It is not a general block and transaction explorer for arbitrary chains. A Node.js and Express backend polls a Hardhat chain for the events of a small game contract, batches them into PostgreSQL, serves aggregated stats over REST and pushes new events to a React dashboard over WebSocket. It is a portfolio project that runs locally in Docker. There is no hosted demo, and the `docker-compose.prod.yml`, Nginx config and CI workflows describe how it could be deployed, not a deployment that exists.
+Event indexer and analytics dashboard for its own GameState contract on a local Hardhat chain. It indexes players joining, score updates, item purchases and game resets. It is not a general block and transaction explorer for arbitrary chains. A Node.js and Express backend polls a Hardhat chain for the events of a small game contract, batches them into PostgreSQL, serves aggregated stats over REST and pushes new events to a React dashboard over WebSocket. It is a portfolio project that runs locally in Docker. There is no hosted demo, and the `docker-compose.prod.yml`, Nginx config and CI workflows describe how it could be deployed, not a deployment that exists.
 
 ## What it does
 
@@ -329,10 +331,6 @@ See [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 - The feed's relative times can read negative on the local chain (for example `-24s ago`) because the Hardhat block timestamps and the browser clock do not line up; I have not changed that
 - I have run the Docker setup and the automated `setup.ps1` on Windows only, and none of the production-style steps
 - Redis for a shared cache, Prometheus metrics, Grafana dashboards, GraphQL and multi-chain support are planned and not built
-
-## Contributing
-
-Fork the repository, create a branch, commit, push and open a pull request. Follow the existing code style, add tests for new features and update the docs.
 
 ## License
 
